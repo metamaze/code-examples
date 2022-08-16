@@ -11,8 +11,8 @@ Have a look at [the API implementations](/src/api/index.ts) if you want to see t
 
 
 ### Uploading files to Metamaze
-
-You can use the function `uploadFilesInFolder` to upload files to Metamaze.
+#### Upload in a script
+You can use the function `uploadFilesInFolder` to upload files to Metamaze in a script.
 It requires the following parameters:
 | Parameter      | Type                       | Description                                                       |
 | -------------- | -------------------------- | ----------------------------------------------------------------- |
@@ -21,6 +21,20 @@ It requires the following parameters:
 | organisationId | string                     | Id of organisation                                                |
 | token          | string                     | Input API token of your project                                   |
 | pipelineType   | "TRAINING" or "PRODUCTION" | Whether you want to upload to the training or production pipeline |
+
+#### Upload once
+To upload all files in a folder one time, create a simple script `upload.ts` with contents
+```
+import { uploadFilesInFolder } from 'api/index';
+ 
+uploadFilesInFolder("<folderPath>", 
+    "<projectId>",
+    "<organisationId>", 
+    "<token>",
+    "PRODUCTION")
+
+```
+and run `ts-node upload.ts`.
 
 ### Retrieve upload from Metamaze
 
