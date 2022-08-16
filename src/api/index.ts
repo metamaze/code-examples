@@ -35,26 +35,28 @@ export const uploadFilesInFolder = async (
       });
     }
   }
+  
   if (files.length) {
-    const url = `${baseUrl}/organisations/${organisationId}/projects/${projectId}/${
-      pipelineType === 'TRAINING' ? 'upload' : 'process'
-    }`;
+    const url = `${baseUrl}/organisations/${organisationId}/projects/${projectId}/${pipelineType === 'TRAINING' ? 'upload' : 'process'
+      }`;
     try {
-      console.log(`Uploading ${files.length} files to Metamaze.`);
-      const result = await axios.post(
-        url,
-        { options: { eachFileIsADocument: true }, files },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'content-type': 'application/json',
-          },
-          maxContentLength: Infinity,
-          maxBodyLength: Infinity,
-        }
-      );
-      console.log('Upload has been successful.');
-      console.log(`Response: ${JSON.stringify(result.data, null, 2)}`);
+      for (const file of files) {
+        console.log(`Uploading ${file.name} files to Metamaze.`);
+        const result = await axios.post(
+          url,
+          { options: { eachFileIsADocument: true }, files: [file] },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'content-type': 'application/json',
+            },
+            maxContentLength: Infinity,
+            maxBodyLength: Infinity,
+          }
+        );
+        console.log('Upload has been successful.');
+        console.log(`Response: ${JSON.stringify(result.data, null, 2)}`);
+      }
     } catch (e) {
       console.log('Something failed with uploading files to Metamaze.');
       if (e instanceof AxiosError) {
